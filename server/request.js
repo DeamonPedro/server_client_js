@@ -1,28 +1,18 @@
-const express = require("express")
+requests = []
 
-module.exports = express.Router().post("/request",(req,res,next)=>{
-    //verifica a existência de todos parametros (método POST)
-    if(req.body.prod&&req.body.quant&&req.body.email&&req.body.key){
-        sql.query(`SELECT * FROM users WHERE email = '${req.body.email}';`,function (error, results, fields){
-            if(error) return res.status(200).send({
-                "error":"Error while reguesting"
-            })
-            if(results.length==0) return res.status(200).send({
-                "error":"Unregisted account"
-            })
-            if(logged_accounts[req.body.email]==req.body.key){
-                return res.status(200).send({
-                    "status":"Confirmed request"
-                })
-            }else{
-                return res.status(200).send({
-                    "error":"Invalid key"
-                })
-            }
+module.exports = (user_id,data,res)=>{
+    //verifica a existência de todos parametros e se o usuario está logado
+    if(data.prod&&data.quant&&logged_users.includes(user_id)){
+        requests.push(data)
+        for (id of logged_admins){
+            io.in(id).emit('request', data);
+        }
+        return res({
+            status:'Confirmed request'
         })
     }else{
-        res.status(200).send({
-            "error":"Invalid request"
+        return res({
+            error:'Invalid request'
         })
     }
-})
+}

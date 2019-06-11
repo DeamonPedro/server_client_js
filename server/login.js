@@ -1,29 +1,39 @@
-const express = require("express")
+logged_users = []
+logged_admins = []
 
-logged_accounts = {}
-
-module.exports = express.Router().post("/login",(req,res,next)=>{
-    //verifica se todos os parametros (método POST) foram recebidos
-    if(req.body.email&&req.body.pass){
+module.exports = (user_id,data,res)=>{
+    //verifica se todos os parametros foram recebidos
+    if(data.email&&data.pass){
         //busca por senha do email do parametro no DB
-        sql.query(`SELECT pass FROM users WHERE email = '${req.body.email}';`, function (error, results, fields){
-            if(error) return console.log(error)
-            //se o DB não retornar nada a conta não existe
-            if (results.length==0) return res.status(200).send({
-                "error":"The account does not exist"
+        sql.query(`SELECT pass FROM ${data.privilege}s WHERE email = '${data.email}';`, function (error, results, fields){
+            if(error) return res({
+                error:"Error while validating"
             })
-            if (results[0].pass == req.body.pass){
-                var user_key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-                res.status(200).send({
-                    "key": user_key
+            //se o DB não retornar nada a conta não existe
+            if (results.length==0) return res({
+                error:'The account does not exist'
+            })
+            if (results[0].pass == data.pass){
+                if(data.privilege == 'user'){
+                    logged_users.push(user_id)
+                }else if(data.privilege == 'admin'){
+                    logged_admins.push(user_id)
+                    for(request of requests){
+                        io.in(user_id).emit('request',request)
+                    }
+                }
+                return res({
+                    status:'Logged'
                 })
-                logged_accounts[req.body.email] = user_key
-                return
+            }else{
+                res({
+                    error:'Wrong password'
+                })
             }
         })
     }else{
-        res.status(200).send({
-            "error":"Incomplete login"
+        return res({
+            error:'Incomplete login'
         })
     }
-})
+}
