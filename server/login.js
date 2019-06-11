@@ -6,7 +6,7 @@ module.exports = express.Router().post("/login",(req,res,next)=>{
     //verifica se todos os parametros (método POST) foram recebidos
     if(req.body.email&&req.body.pass){
         //busca por senha do email do parametro no DB
-        sql.query("SELECT pass FROM users WHERE email = '"+req.body.email+"';", function (error, results, fields){
+        sql.query(`SELECT pass FROM users WHERE email = '${req.body.email}';`, function (error, results, fields){
             if(error) return console.log(error)
             //se o DB não retornar nada a conta não existe
             if (results.length==0) return res.status(200).send({

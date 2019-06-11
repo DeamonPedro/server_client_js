@@ -29,6 +29,13 @@ app.use(confirm_account)
 app.use(request)
 
 const server = http.createServer(app)
-server.listen(port)
+io = require("socket.io")(server)
 console.log("[+] Server Running...")
+
+io.on("connection", socket => {
+    console.log(`Conectado: ${socket.id}`)
+    socket.emit('init','oi');
+})
+
+server.listen(port)
 module.exports = app

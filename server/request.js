@@ -3,7 +3,7 @@ const express = require("express")
 module.exports = express.Router().post("/request",(req,res,next)=>{
     //verifica a existência de todos parametros (método POST)
     if(req.body.prod&&req.body.quant&&req.body.email&&req.body.key){
-        sql.query("SELECT * FROM users WHERE email = '"+req.body.email+"';",function (error, results, fields){
+        sql.query(`SELECT * FROM users WHERE email = '${req.body.email}';`,function (error, results, fields){
             if(error) return res.status(200).send({
                 "error":"Error while reguesting"
             })

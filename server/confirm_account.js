@@ -5,7 +5,7 @@ module.exports = express.Router().get("/confirm_account",(req,res,next)=>{
     if(req.query.code&&no_confirmed_accounts[req.query.code]){
         var user = no_confirmed_accounts[req.query.code]
         //insere dados no DB
-        sql.query("INSERT INTO users(name,email,pass,lat,lng) VALUES ('"+user.name+"','"+user.email+"','"+user.pass+"','"+user.lat+"','"+user.lng+"')",function (error, results, fields){
+        sql.query(`INSERT INTO users(name,email,pass,lat,lng) VALUES ('${user.name}','${user.email}','${user.pass}','${user.lat}','${user.lng}')`,function (error, results, fields){
             if(error) return res.status(200).send({
                 "error":"Error while registering"
             })

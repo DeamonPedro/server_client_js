@@ -13,7 +13,7 @@ module.exports = express.Router().post("/sign_up",(req,res,next)=>{
             })
         }
         //verifica se o email já foi registrado
-        sql.query("SELECT * FROM users WHERE email = '"+req.body.email+"';",function (error, results, fields){
+        sql.query(`SELECT * FROM users WHERE email = '${req.body.email}';`,function (error, results, fields){
             if(error) return res.status(200).send({
                 "error":"Error while validating"
             })
