@@ -3,7 +3,7 @@ no_confirmed_accounts = {}
 
 module.exports = (user_id,data,res)=>{
     //verifica se todos os parametros foram recebidos
-    if(data.name&&data.email&&data.pass&&data.lat&&data.lng){
+    if(data&&data.name&&data.email&&data.pass&&data.lat&&data.lng){
         //verifica o email atual já solicitou validação
         for(var key in no_confirmed_accounts){
             if(no_confirmed_accounts[key].email == data.email) return res({
@@ -22,11 +22,11 @@ module.exports = (user_id,data,res)=>{
             var random_code = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
             //adiciona a um dicionario de contas esperando validação
             no_confirmed_accounts[random_code+""] = {
-                name : data.name,
-                email : data.email,
-                pass : data.pass,
-                lat : data.lat,
-                lng : data.lng
+                name    :data.name,
+                email   :data.email,
+                pass    :data.pass,
+                lat     :data.lat,
+                lng     :data.lng
             }
             res({
                 status:"Waiting Validation",

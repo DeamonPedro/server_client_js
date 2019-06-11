@@ -2,17 +2,16 @@ const socket = require('socket.io-client')('http://127.0.0.1')
 
 const data = {
     privilege:'user',
-    name:'pedro1',
-    email:'example2@gmail.com',
-    pass:'profano2',
-    lat:'-33.000000',
-    lng:'33.000000',
+    name:'pedro25',
+    email:'example25@gmail.com',
+    pass:'profano25',
+    lat:-33.000000,
+    lng:33.000000,
     prod:'aqua',
     quant:11
 }
-
-socket.on('order_accepted',(data) => {
-    console.log('Seu pedido chega em :',data)
+socket.on('confirmation',(data) => {
+    console.log('entregador :',data)
 })
 
 subs = ['login','sign_up','request']

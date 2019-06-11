@@ -3,7 +3,7 @@ logged_admins = []
 
 module.exports = (user_id,data,res)=>{
     //verifica se todos os parametros foram recebidos
-    if(data.email&&data.pass){
+    if(data&&data.email&&data.pass){
         //busca por senha do email do parametro no DB
         sql.query(`SELECT pass FROM ${data.privilege}s WHERE email = '${data.email}';`, function (error, results, fields){
             if(error) return res({

@@ -4,7 +4,7 @@ const data = {
     privilege:'admin',
     name:'pedro',
     email:'example@gmail.com',
-    pass:'profano',
+    pass:'profano'
 }
 
 subs = ['login','accept_request']
@@ -20,7 +20,13 @@ var stdin = process.openStdin();
 console.log(subs)
 stdin.addListener('data', function(input) {
         console.log(subs)
-        socket.emit(subs[parseInt(input.toString())-1],socket.id,data, function (res) {
+        var send = data
+        if(input.toString().includes('2')){
+            console.log('2')
+            send = requests[0]
+            send.attendant = data.name
+        }
+        socket.emit(subs[parseInt(input.toString())-1],socket.id,send, function (res) {
             console.log(res);
         });
 });
