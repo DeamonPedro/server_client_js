@@ -15,7 +15,7 @@ const app = express()
 
 //porta do servidor
 const port = 80
-app.set('port',port)
+app.set('port', port)
 
 //acetar retorno en json
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -29,10 +29,10 @@ sockets = []
 
 io.on('connection', socket => {
     sockets.push(socket)
-    socket.on('login',login)
-    socket.on('sign_up',sign_up)
-    socket.on('request',request)
-    socket.on('accept_request',accept_request)
+    socket.on('login', login)
+    socket.on('sign_up', sign_up)
+    socket.on('request', request)
+    socket.on('accept_request', accept_request)
 })
 
 server.listen(port)
